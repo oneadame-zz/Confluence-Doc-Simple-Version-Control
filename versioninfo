@@ -1,0 +1,42 @@
+## Macro title: Version Info
+## Macro has a body: N
+##
+## Developed by: Adam Engelmeyer
+## Date created: 6/12/2018
+## Installed by: Adam Engelmeyer
+
+## @param Version:title=This page's software version|type=string|required=true|desc=Enter the software version reflected by this page, assumed to be unreleased or partially released.
+## @param More:title=More information|type=string|required=false|desc=More information about the page updates for users. Appears in the message area.
+
+#set($D='$')
+
+<style>
+.version-info {
+    margin-bottom: .4em;
+border: 1px solid #bebebe;
+    border-radius: 3px;
+    padding: 6px;
+    background-color: #f0f0f0;
+}
+</style>
+
+<script type="text/javascript">
+$(function getVersion() {
+    ${D}.ajax({
+        url: 'https://projects.intellisurvey.com/confluence/display/ISDOC/',
+        type: 'html',
+        success: function(content, code) {
+            var softwareVersion = $(content).find("#version").val().split(".");
+            var softwarePointVersion = softwareVersion[2];
+            var pageVersion = "$paramVersion".split(".");
+            var pagePointVersion = pageVersion[2];
+            var messageBox = "<div class='version-info'><b>Note</b>: This page contains new information pertaining to <span id='partial-release' style='font-weight:bold;''>$paramVersion</span>.$!paramMore Please check your software version in the interface footer. In the case your software version is older, verify information is relevant to your release using the version history for this page.</div>";
+            $(function showMessage() {
+                if ( softwareVersion && pageVersion && (softwarePointVersion < pagePointVersion)) {
+                    $(".page-metadata").after(messageBox);
+                }
+            })
+        }
+    });
+});
+</script>
