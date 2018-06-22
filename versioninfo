@@ -23,7 +23,7 @@ border: 1px solid #bebebe;
 <script type="text/javascript">
 $(function getVersion() {
     ${D}.ajax({
-        url: 'https://projects.intellisurvey.com/confluence/display/ISDOC/',
+        url: 'path to hidden input goes here',
         type: 'html',
         success: function(content, code) {
             var softwareVersion = $(content).find("#version").val().split(".");
